@@ -64,7 +64,7 @@ public class Locus: Identifiable, Equatable, Codable {
     }
     
     
-    func setAlleles(values: String) {
+    public func setAlleles(values: String) {
         let a = values.components(separatedBy: ":").compactMap{ $0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }
         alleles = a
     }

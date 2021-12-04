@@ -34,7 +34,7 @@ public class Individual: Identifiable, Codable, Hashable, Equatable {
         case loci
     }
     
-    init() {
+    public init() {
         self.id = UUID()
         self.location  = CLLocationCoordinate2DMake(0.0, 0.0)
     }
