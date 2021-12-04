@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import DLMatrix
 
 class AMOVAAnalysis {
     var individuals: [Individual]

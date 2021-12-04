@@ -19,18 +19,18 @@
 import Foundation
 import DLMatrix 
 
-class Locus: Identifiable, Equatable, Codable {
+public class Locus: Identifiable, Equatable, Codable {
     
-    var id = UUID()
-    var alleles = [String]()
-    var isHeterozygote: Bool {
+    public var id = UUID()
+    public var alleles = [String]()
+    public var isHeterozygote: Bool {
         return Set(alleles).count > 1 
     }
-    var ploidy: Int {
+    public var ploidy: Int {
         return alleles.count 
     }
     
-    var isEmpty: Bool {
+    public var isEmpty: Bool {
         return alleles.count == 0 
     }
     
@@ -40,26 +40,26 @@ class Locus: Identifiable, Equatable, Codable {
     }
     
     
-    init() { }
+    public init() { }
     
-    init( raw: String ) {
+    public init( raw: String ) {
         self.alleles = raw.components(separatedBy: ":").sorted().filter{ $0 != ""}
     }
     
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self )
         id = try values.decode( UUID.self, forKey: .id )
         alleles = try values.decode( Array.self, forKey:  .alleles  )
     }
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self )
         try container.encode( id, forKey: .id )
         try container.encode( alleles, forKey: .alleles)
     }
     
     
-    static func ==(lhs: Locus, rhs: Locus) -> Bool {
+    public static func ==(lhs: Locus, rhs: Locus) -> Bool {
         return lhs.alleles == rhs.alleles
     }
     
@@ -79,7 +79,7 @@ class Locus: Identifiable, Equatable, Codable {
 
 extension Locus: CustomStringConvertible {
     
-    var description: String {
+    public var description: String {
         let ret = String( self.alleles.joined(separator: ":") )
         if ret.isEmpty {
             return ".:."
@@ -95,7 +95,7 @@ extension Locus: CustomStringConvertible {
 // Mark: - Genetic Distance
 extension Locus {
 
-    func asVector( alleles: [String] ) -> Vector {
+    public func asVector( alleles: [String] ) -> Vector {
         
         var ret = Vector(repeating: 0.0, count: alleles.count )
         
@@ -111,7 +111,7 @@ extension Locus {
     /*
      Estimates genetic distance between two loci using amova
      */
-    static func - (lhs: Locus, rhs: Locus) -> Double {
+    public static func - (lhs: Locus, rhs: Locus) -> Double {
         if lhs == rhs || lhs.isEmpty || rhs.isEmpty {
             return 0.0
         }

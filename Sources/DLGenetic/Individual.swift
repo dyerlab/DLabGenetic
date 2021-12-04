@@ -19,12 +19,12 @@
 import Foundation
 import CoreLocation
 
-class Individual: Identifiable, Codable, Hashable, Equatable {
+public class Individual: Identifiable, Codable, Hashable, Equatable {
     
-    var id: UUID
-    var location: CLLocationCoordinate2D
-    var strata = [String:String]()
-    var loci = [String:Locus]()
+    public var id: UUID
+    public var location: CLLocationCoordinate2D
+    public var strata = [String:String]()
+    public var loci = [String:Locus]()
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -40,7 +40,7 @@ class Individual: Identifiable, Codable, Hashable, Equatable {
     }
     
     
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self )
         id = try values.decode( UUID.self , forKey: .id )
         strata = try values.decode( Dictionary.self, forKey: .strata )
@@ -52,7 +52,7 @@ class Individual: Identifiable, Codable, Hashable, Equatable {
     }
     
     
-    func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self )
         try container.encode( id, forKey: .id )
         try container.encode( strata, forKey: .strata )
@@ -61,12 +61,12 @@ class Individual: Identifiable, Codable, Hashable, Equatable {
         try container.encode( location.longitude, forKey: .longitude )
     }
     
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine( self.id )
     }
     
     
-    static func == (lhs: Individual, rhs: Individual) -> Bool {
+    public static func == (lhs: Individual, rhs: Individual) -> Bool {
         return lhs.id == rhs.id
     }
     
@@ -113,7 +113,7 @@ class Individual: Identifiable, Codable, Hashable, Equatable {
 
 
 extension Individual: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         var ret = ""
         
         var keys = self.strata.keys.sorted() 
