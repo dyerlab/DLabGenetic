@@ -64,10 +64,6 @@ Operators overloaded to handle `Locus` objects include:
 - `-` to find the AMOVA distance between the two loci.
 - `==` to determine equality of genotypes.
 
-Extensions to `Array where Element == Individual` include:
-
-- `
-
 
 <a name="Locus"></a>
 ### Individual
@@ -76,9 +72,10 @@ The `Individual` class holds strata and locus information for a georeferenced in
 
 The `Individual` class as the following properties:
 - `id:UUID`
-- `locaiton:CLLocationCoordinate2D`
+- `location:CLLocationCoordinate2D`
 - `strata:[String:String]`
 - `loci:[String:Locus]`
+- `description:String` to comply with CustomStringConvertable
 
 An `Individual` object can be created as:
 - `init()` Makes location as latitude = 0 longitude = 0
@@ -87,6 +84,31 @@ An `Individual` object can be created as:
 An `Individual` object has the following public functions.
 - `setValueForKey( key: String, value: String)` sets either the `.strata` or `.loci` objects from the user interface (say table input).  Will parse data properly.
 - `dataForKey(key: String) -> String` Returns string represetnation of either `.strata` or `.loci` object based upon key passed.  Returns empty string for non-existant key.
+
+Overloaded operators for `Individual` objects include:
+- `-` A subtraction operator defines the multilocus AMOVA disance between two individuals.
+
+
+Extensions to `Array where Element == Individual` include the following properties:
+
+- `strataKeys:[String]` Returns names of strata.
+- `allLevels:[String]` Returns array of all strata names prepended by "All"
+- `locusKeys:[String]` The names of the loci
+- `allKeys:[String]` The names of all strata, coordinates, and loci.
+- `locations:[CLLocationCoordinate2D]` An array of coordinates for all individuals.
+- `center:CLLocationCoordinate2D` The centroid of the individuals.
+
+Extensions to `Array where Element == Individual` include the following functions:
+- `levelsForStratum(key: String) -> [String]` Returns the levels within the stratum.
+- `getLoci( named: String) -> Loucs` Returns named `Locus` or empty one if not existing.
+- locales( stratum: String, values: [String]) -> [Individual]` Grab a subset of indiviudals based upon a particular set of locales.
+- `partition(by: String) -> [String: [Individual] ]` Returns a dictionary of indivudals based upon partitions.
+- `frequencyFor(locus: String, stratum: String, level: String) -> AlleleFrequency` Returns an `AlleleFrequencies` object for a particular locale.
+- `individualsAtStratum(stratim: String, level: String) -> [Individual]` Grab a set of individuals for a particular locale. 
+
+
+
+
 
 <a name="Locus"></a>
 ### AlleleFrequencies
