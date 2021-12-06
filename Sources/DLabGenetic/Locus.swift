@@ -17,7 +17,7 @@
 //
 
 import Foundation
-import DLMatrix 
+import DLabMatrix 
 
 public class Locus: Identifiable, Equatable, Codable {
     

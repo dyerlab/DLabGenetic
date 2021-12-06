@@ -1,5 +1,5 @@
 import XCTest
-@testable import DLGenetic
+@testable import DLabGenetic
 
 final class DLGeneticTests: XCTestCase {
     func testExample() throws {

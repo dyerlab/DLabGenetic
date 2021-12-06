@@ -6,14 +6,14 @@
 //
 
 import XCTest
-@testable import DLGenetic
+import DLabMatrix
+
+@testable import DLabGenetic
 
 final class AMOVATests: XCTestCase {
 
     func testExample() throws {
-        let testBundle = Bundle(for: type(of: self))
-        guard let filePath = testBundle.path(forResource: "arapat", ofType: "csv") else { fatalError() }
-        let raw_inds = loadCSVFile(path: filePath, numStrata: 3, hasCoord: true, numLoci: 8)
+        let raw_inds = DefaultIndividuals()
         XCTAssertEqual( raw_inds.count, 363)
         let df = raw_inds.locales(stratum: "Population", values: ["101","102"] )
 
@@ -50,8 +50,6 @@ final class AMOVATests: XCTestCase {
         
         XCTAssertEqual( analysis.MSModel, (352.0/16.0) + (212/14.0) )
         XCTAssertEqual( analysis.MSError, analysis.SSError / 15.0 )
-        
     }
-
 
 }

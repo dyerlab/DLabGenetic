@@ -6,7 +6,8 @@
 //
 
 import XCTest
-@testable import DLGenetic
+import DLabMatrix
+@testable import DLabGenetic
 
 final class AMOVAMatrixTest: XCTestCase {
 
