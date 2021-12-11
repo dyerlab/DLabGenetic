@@ -24,12 +24,6 @@ final class AMOVAMatrixTest: XCTestCase {
             individuals.append( ind )
         }
         
-        let X = Matrix(individuals: individuals)
-        print("\(X)")
-        
-        XCTAssertEqual( X.diagonal, Vector(repeating: 0.0, count: 10))
-        
-        print("\(X)")
         
     }
 

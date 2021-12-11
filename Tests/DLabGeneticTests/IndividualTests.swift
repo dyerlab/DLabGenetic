@@ -35,21 +35,7 @@ final class IndividualTests: XCTestCase {
         let raw_inds = DefaultIndividuals()
         XCTAssertEqual( raw_inds.count, 363)
         
-        let df = raw_inds.locales(stratum: "Population", values: ["101","102"] )
-        let D = Matrix(individuals: df )
-        XCTAssertEqual( D.rows, D.cols )
-        XCTAssertEqual( D.rows, df.count )
-        
-        print("\(D)")
-        
-        let loci = df.locusKeys
-        for ind in df {
-            var ret = ind.strata["Population"]!
-            for locus in loci {
-                ret += String(" \(ind.loci[locus]! )" )
-            }
-            print( ret )
-        }
+        // let df = raw_inds.locales(stratum: "Population", values: ["101","102"] )
 
     }
     

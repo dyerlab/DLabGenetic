@@ -9,6 +9,8 @@ import Foundation
 import CoreLocation
 import MapKit
 
+import DLabMatrix
+
 
 /**
  Extensions for arrays  of individuals
@@ -95,6 +97,11 @@ extension Array where Element == Individual {
         return self.filter{ $0.strata[stratum] == level }
     }
     
+    
+    func designMatrixFor( stratum: String ) -> Matrix {
+        let pops = self.compactMap{ $0.strata[ stratum ] }
+        return Matrix.designMatrix(strata: pops)   
+    }
     
 }
 

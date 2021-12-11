@@ -8,50 +8,48 @@
 import Foundation
 import DLabMatrix
 
-class AMOVAAnalysis {
-    var individuals: [Individual]
-    var name: String  = "Analysis of Molecular Variance"
-    var D: Matrix
-    var count: Int {
+public class AMOVAAnalysis {
+    public var individuals: [Individual]
+    public var name: String  = "Analysis of Molecular Variance"
+    
+    public var C: Matrix
+    public var H: Matrix
+    
+    public var count: Int {
         return individuals.count
     }
     
-    var partitionName: String {
+    public var partitionName: String {
         didSet {
-            var ss: Double = 0.0
-            for (_, inds) in self.individuals.partition(by: self.partitionName ) {
-                ss += Matrix(individuals: inds ).SS
-            }
-            self.SSModel = ss
+            let strata = self.individuals.compactMap{ $0.strata[ self.partitionName ] }
+            H = Matrix.idempotentHatMatrix(strata: strata )
+            self.SSModel = (H .* C).trace
         }
     }
     
-    var dfTotal: Int {
+    public var dfTotal: Int {
         return self.count - 1
     }
     
-    var dfModel: Int {
+    public var dfModel: Int {
         return individuals.levelsForStratum(key: partitionName).count - 1
     }
     
-    var dfError: Int {
+    public var dfError: Int {
         return dfTotal - dfModel
     }
     
-    var SSTotal: Double {
-        if count < 1 {
-            return Double.infinity
-        }
-        return D.SS
+    public var SSTotal: Double {
+        return C.trace
     }
     
-    var SSModel: Double
+    public var SSModel: Double
     
-    var SSError: Double {
+    public var SSError: Double {
         return SSTotal - SSModel
     }
     
-    var MSModel: Double {
+    public var MSModel: Double {
         if dfModel == 0 {
             return Double.infinity
         }
@@ -66,17 +64,26 @@ class AMOVAAnalysis {
     }
     
     
-    init( individuals: [Individual] ) {
+    public init( individuals: [Individual], stratum: String  ) {
         self.individuals = individuals
-        D = Matrix(individuals: individuals)
         self.SSModel = 0.0
-        self.partitionName = individuals.strataKeys.first!
+        self.H = Matrix(0,0,0.0)
+        let N = self.individuals.count
         
-        print( D.submatrix( [1,2,3,4,5,6,7,8,9,10], [1,2,3,4,5,6,7,8,9,10]))
+        let D = Matrix(N,N,0.0)
+        for i in 0 ..< N {
+            for j in (i+1) ..< N {
+                let dist = individuals[i] - individuals[j]
+                D[i,j] = dist
+                D[j,i] = dist
+            }
+        }
+        self.C = D.asCovariance
+        self.partitionName = stratum 
     }
     
     
-    func partitionBy( stratum: String) -> String {
+    public func partitionBy( stratum: String) -> String {
         self.partitionName = stratum
         return stratum.capitalized
     }
