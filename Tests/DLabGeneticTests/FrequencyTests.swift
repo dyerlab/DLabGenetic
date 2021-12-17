@@ -22,21 +22,19 @@ final class FrequencyTests: XCTestCase {
         XCTAssertEqual( zmp.alleles, ["1"] )
         XCTAssertEqual( zmp.frequency(allele: "1"), 1.0 )
         XCTAssertEqual( zmp.frequency(allele: "2"), 0.0 )
-        XCTAssertEqual( zmp.Ho, 0.0 )
-        XCTAssertEqual( zmp.He, 0.0 )
-        XCTAssertEqual( zmp.F, 0.0 )
         
         let aml = AlleleFrequencies( loci: df.getLoci(named: "AML") )
         XCTAssertEqual( aml.alleles, ["8","11"])
         XCTAssertEqual( aml.frequency(allele: "8"), 1.0 / 3.0 )
         XCTAssertEqual( aml.frequency(allele: "11"), 2.0 / 3.0 )
-        XCTAssertEqual( aml.Ae, 1.8, accuracy: 0.000001)
-        XCTAssertEqual( aml.Ho, 0.0 )
-        XCTAssertEqual( aml.He, 1.0 - ( pow( (1.0/3.0), 2.0) + pow( (2.0/3.0), 2.0 )   ) )
-        XCTAssertEqual( aml.F, 1.0 )
+        
+        
         print("\(aml)")
         
     }
+    
+    
+    
 
    
 

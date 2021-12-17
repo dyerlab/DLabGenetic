@@ -22,48 +22,12 @@ class AlleleFrequencies {
     
     private var counts = [String:Double]()
     private var n = 0.0
-    private var numHets = 0.0
-    private var numDiploid = 0.0
+    
+    var numHets = 0.0
+    var numDiploid = 0.0
     
     var frequencies: [Double] {
         return frequenciesFor(alleles: self.alleles)
-    }
-    
-    var A: Int {
-        return counts.count
-    }
-    
-    var A95: Int {
-        var ret: Int = 0
-        for f in self.frequencies {
-            if f >= 0.05 {
-                ret += 1
-            }
-        }
-        return ret
-    }
-    
-    var Ae: Double {
-        let bot = self.He
-        if bot == 0.0 {
-            return 1.0
-        } else {
-            return 1.0 / (1.0 - bot)
-        }
-    }
-    
-    var Ho: Double {
-        return numDiploid > 0 ? numHets / numDiploid : 0.0
-    }
-    
-    var He: Double {
-        let p = frequenciesFor(alleles: counts.keys.sorted() ).map{ $0 * $0 }
-        return 1.0 - p.reduce(0.0, +)
-    }
-    
-    var F: Double {
-        let bot = self.He
-        return bot != 0.0 ? 1.0 - Ho/bot : 0.0 
     }
     
     var alleles: [String] {
@@ -131,16 +95,12 @@ class AlleleFrequencies {
 extension AlleleFrequencies: CustomStringConvertible {
     
     var description: String {
-        var ret = "Alleles = [" + self.alleles.joined(separator: ", ") + "]\n"
-        ret += String("A: \(self.A)\n")
-        ret += String("A95: \(self.A95)\n")
-        ret += String("Ae: \(self.Ae)\n")
-        ret += String("Ho: \(self.Ho)\n")
-        ret += String("He: \(self.He)\n")
-        ret += String("F: \(self.F)\n")
+        var ret = "Frequencies:\n"
+        for allele in self.alleles.sorted() {
+            ret += String("\(allele): \(frequency(allele: allele)) \n")
+        }
         return ret
     }
-    
 }
 
 
