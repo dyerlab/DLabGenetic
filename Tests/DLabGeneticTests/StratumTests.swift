@@ -11,30 +11,18 @@ import XCTest
 class StratumTests: XCTestCase {
 
 
-
-    func testExample() throws {
-
-        let root = Stratum(label: "Root")
-        let region1 = Stratum(label: "Washington")
-        root.addSubstratum(stratum: region1 )
-        let pop1 = Stratum(label:"Olympia")
-        let pop2 = Stratum(label:"Bellingham")
-        region1.addSubstratum( stratum: pop1 )
-        region1.addSubstratum( stratum: pop2 )
+    func testDefaults() throws {
         
-        let region2 = Stratum(label: "Virginia")
-        root.addSubstratum(stratum: region2 )
-        let pop3 = Stratum(label: "RVA")
-        let pop4 = Stratum(label: "Deltaville")
-        region2.addSubstratum( stratum: pop3 )
-        region2.addSubstratum( stratum: pop4 )
-
-        print( "\(root)")
+        let pop = DefaultIndividuals(level: .population )
+        print("\(pop)")
+        XCTAssertEqual( pop.individuals.count, 6)
         
-        XCTAssertTrue( root.parent == nil )
-        XCTAssertEqual( root.label, "Root")
+        let data = DefaultIndividuals(level: .all )
+        print("\(data)")
+        XCTAssertEqual( data.individuals.count, 363)
+        
+        
         
     }
-
 
 }

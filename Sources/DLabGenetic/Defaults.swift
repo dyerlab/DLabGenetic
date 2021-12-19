@@ -20,10 +20,66 @@
 import Foundation
 import CoreLocation
 
-public func DefaultIndividuals() -> [Individual] {
+
+public enum DefaultDataLevel {
+    case all
+    case population
+}
+
+public func DefaultIndividuals( level: DefaultDataLevel ) -> Stratum {
     
-    var data = [Individual]()
-    let raw_data: [ [String] ] = [
+    let raw_data = level == .population ? OneStratumRaw() : AllStrataRaw()
+    let stratum = Stratum(label: "All", level: "All")
+    
+    for i in 0 ..< raw_data.count {
+        let row = raw_data[i]
+        let ind = Individual()
+        
+        let lat = Double( row[3] ) ?? 0.0
+        let lon = Double( row[4] ) ?? 0.0
+        ind.location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        
+        ind.loci["LTRS"] = Locus(raw: row[5])
+        ind.loci["WNT"] = Locus(raw: row[6])
+        ind.loci["EN"] = Locus(raw: row[7])
+        ind.loci["EF"] = Locus(raw: row[8])
+        ind.loci["ZMP"] = Locus(raw: row[9])
+        ind.loci["AML"] = Locus(raw: row[10])
+        ind.loci["ATPS"] = Locus(raw: row[11])
+        ind.loci["MP20"] = Locus(raw: row[12])
+        
+        
+        if level == .all {
+            let names = [row[0],row[1],row[2] ]
+            
+            stratum.addIndividual( individual: ind,
+                                   strata: names,
+                                   levels: ["Species","Cluster","Population"] )
+        }
+        else {
+            stratum.addIndividual(individual: ind,
+                                  strata: [],
+                                  levels: [])
+        }
+    }
+    
+    return stratum
+}
+
+
+func OneStratumRaw() ->  [ [String] ] {
+    return [
+        ["Cape","SCBP-A","156","24.04387004","-109.9889481","2:2","2:2","2:2","1:1","2:2","5:5","3:3","18:18"],
+        ["Cape","SCBP-A","156","24.04380144","-109.9889429","2:2","2:2","1:2","1:1","2:2","4:4","3:3","17:17"],
+        ["Cape","SCBP-A","156","24.04387486","-109.9889149","2:2","2:2","1:2","1:1","2:2","4:4","3:6","18:18"],
+        ["Cape","SCBP-A","156","24.04382849","-109.9889891","2:2","2:2","2:2","1:1","2:2","4:4","3:3","18:18"],
+        ["Cape","SCBP-A","156","24.04384321","-109.9889404","2:2","1:1","2:2","1:1","2:2","4:4","3:3","16:17"],
+        ["Cape","SCBP-A","156","24.04388245","-109.988957","2:2","2:2","2:2","1:1","2:2","5:5","3:3","17:18"]
+    ]
+}
+
+func AllStrataRaw() -> [ [String] ] {
+    return [
         ["Cape","SCBP-A","156","24.04387004","-109.9889481","2:2","2:2","2:2","1:1","2:2","5:5","3:3","18:18"],
         ["Cape","SCBP-A","156","24.04380144","-109.9889429","2:2","2:2","1:2","1:1","2:2","4:4","3:3","17:17"],
         ["Cape","SCBP-A","156","24.04387486","-109.9889149","2:2","2:2","1:2","1:1","2:2","4:4","3:6","18:18"],
@@ -387,31 +443,6 @@ public func DefaultIndividuals() -> [Individual] {
         ["Peninsula","SBP-C","Aqu","23.28558813","-110.1042543","2:2","3:3","1:1","1:1","2:2","5:6","5:5","11:11"],
         ["Peninsula","SBP-C","ESan","24.45887106","-110.3684842","2:2","3:3","1:1","1:1","2:2","6:6","5:5","11:11"],
         ["Peninsula","SBP-C","ESan","24.45880587","-110.3685062","2:2","3:3","1:1","1:1","2:2","6:6","8:8","10:11"]
-            ]
-    
-    for i in 0 ..< raw_data.count {
-        let row = raw_data[i]
-        let ind = Individual()
-        
-        // "LTRS","WNT","EN","EF","ZMP","AML","ATPS","MP20"
-        
-
-        let lat = Double( row[3] ) ?? 0.0
-        let lon = Double( row[4] ) ?? 0.0
-        ind.location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-
-        ind.loci["LTRS"] = Locus(raw: row[5])
-        ind.loci["WNT"] = Locus(raw: row[6])
-        ind.loci["EN"] = Locus(raw: row[7])
-        ind.loci["EF"] = Locus(raw: row[8])
-        ind.loci["ZMP"] = Locus(raw: row[9])
-        ind.loci["AML"] = Locus(raw: row[10])
-        ind.loci["ATPS"] = Locus(raw: row[11])
-        ind.loci["MP20"] = Locus(raw: row[12])
-        data.append( ind )
-    }
-    
-    
-    return data
-    
+    ]
 }
+

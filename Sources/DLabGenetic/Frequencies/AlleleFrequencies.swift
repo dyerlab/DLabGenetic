@@ -105,7 +105,7 @@ extension AlleleFrequencies: CustomStringConvertible {
 
 
 
-
+/*
 extension AlleleFrequencies {
     
     static func DefaultFrequencies() -> AlleleFrequencies {
@@ -114,4 +114,5 @@ extension AlleleFrequencies {
         return freqs
     }
 }
+ */
 

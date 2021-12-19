@@ -18,16 +18,16 @@
 
 import Foundation
 
-class Stratum {
+public class Stratum {
     
     /// The name of this particular stratum
-    var label: String
+    public var label: String
     
     /// The stratigraific level of this stratum
-    var level: String
+    public var level: String
     
     /// The parent of this stratum
-    weak var parent: Stratum?
+    public weak var parent: Stratum?
     
     /// All the substrata under this one.
     var substrata: [Stratum] = []
@@ -36,7 +36,7 @@ class Stratum {
     var _individuals: [Individual] = []
     
     /// All individuals at this level and all other levels.
-    var individuals: [Individual] {
+    public var individuals: [Individual] {
         if substrata.isEmpty {
             return self._individuals
         } else {
@@ -51,7 +51,7 @@ class Stratum {
     /**
      Designated initializer.
      */
-    init(label: String, level: String = "Root" ) {
+    public init(label: String, level: String = "Root" ) {
         self.label = label
         self.level = level
     }
@@ -61,7 +61,7 @@ class Stratum {
      - Parameters:
         - stratum: The new stratum to add.
      */
-    func addSubstratum(stratum: Stratum) {
+    public func addSubstratum(stratum: Stratum) {
         stratum.parent = self
         self.substrata.append( stratum )
     }
@@ -72,7 +72,7 @@ class Stratum {
         - named: The label of the Stratum being sought
      - Returns: The stratum or nil
      */
-    func substratum(named: String) -> Stratum? {
+    public func substratum(named: String) -> Stratum? {
         if label == self.label { return self }
         
         for child in substrata {
@@ -83,6 +83,32 @@ class Stratum {
         return nil
     }
     
+    /**
+     Returns substrata with passed names
+     - Parameters:
+        - named: A vector of names for strata
+     - Returns: A Vector of Stratum
+     */
+    public func substrata( named: [String] ) -> [Stratum] {
+        return named.compactMap{ self.substratum(named: $0) }
+    }
+    
+    /**
+     Just return individuals from named substrata
+     - Parameters:
+        - named: An array of named stratum from which to get individuals.
+     - Returns: A single array of Individual objects
+     */
+    public func individualsFrom( named: [String] ) ->  [ Individual ] {
+        var ret = [Individual]()
+            
+        for stratum in substrata(named: named) {
+            ret.append(contentsOf: stratum.individuals )
+        }
+        
+        return ret
+    }
+    
     
     /**
      Add individuals to this or some substratum.  This will automatically populate subgroups.
@@ -91,7 +117,7 @@ class Stratum {
         - stratum: A vector of strata names.
         - levels: A vector of level names.
      */
-    func addIndividual( individual: Individual, strata: [String], levels: [String] ) {
+    public func addIndividual( individual: Individual, strata: [String], levels: [String] ) {
         
         if strata.count == 0 {
             self._individuals.append( individual )
@@ -125,8 +151,8 @@ class Stratum {
 extension Stratum: CustomStringConvertible {
     
     /// Overloading of the
-    var description: String {
-        var ret = "\(label):"
+    public var description: String {
+        var ret = "\(label): with \(_individuals.count) ->\n"
         if !substrata.isEmpty {
             ret += " { " + substrata.map { $0.description }.joined(separator: ", ") + " } "
         }

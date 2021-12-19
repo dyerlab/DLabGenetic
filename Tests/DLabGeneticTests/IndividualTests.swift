@@ -29,7 +29,7 @@ final class IndividualTests: XCTestCase {
         
     }
 
-
+    /*
     func testAMOVAIndividuals() throws {
         
         let raw_inds = DefaultIndividuals()
@@ -38,5 +38,6 @@ final class IndividualTests: XCTestCase {
         // let df = raw_inds.locales(stratum: "Population", values: ["101","102"] )
 
     }
+     */
     
 }
