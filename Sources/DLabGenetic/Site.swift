@@ -10,16 +10,30 @@
 //         Making Population Genetic Software That Doesn't Suck
 //
 //  GeneticStudio
-//  DiversityOutput.swift
+//  Site.swift
 //
 //  Created by Rodney Dyer on 10/27/21.
 //  Copyright (c) 2021 Rodney J Dyer.  All Rights Reserved.
 //
 
-
 import Foundation
+import CoreLocation
+import MapKit
 
-enum DiversityOutput: Int {
-    case graphical
-    case tabular
+class Site {
+    var individuals: [Individual]  = []
+    var count: Int {
+        return individuals.count
+    }
+    
+    var center: CLLocationCoordinate2D {
+        return individuals.center
+    }
+    
+    var region: MKCoordinateRegion {
+        return individuals.coordinateRegion
+    }
+    
+    
+    
 }

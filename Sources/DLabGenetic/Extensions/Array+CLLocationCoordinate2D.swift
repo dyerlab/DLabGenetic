@@ -1,8 +1,19 @@
 //
-//  File.swift
-//  
+//  dyerlab.org                                          @dyerlab
+//                      _                 _       _
+//                   __| |_   _  ___ _ __| | __ _| |__
+//                  / _` | | | |/ _ \ '__| |/ _` | '_ \
+//                 | (_| | |_| |  __/ |  | | (_| | |_) |
+//                  \__,_|\__, |\___|_|  |_|\__,_|_.__/
+//                        |_ _/
 //
-//  Created by Rodney Dyer on 12/4/21.
+//         Making Population Genetic Software That Doesn't Suck
+//
+//  GeneticStudio
+//  Array+CLLocationCoordinate2D.swift
+//
+//  Created by Rodney Dyer on 10/27/21.
+//  Copyright (c) 2021 Rodney J Dyer.  All Rights Reserved.
 //
 
 import Foundation

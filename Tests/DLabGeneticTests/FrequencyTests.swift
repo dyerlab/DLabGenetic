@@ -16,6 +16,8 @@ final class FrequencyTests: XCTestCase {
        
         let raw_inds = DefaultIndividuals()
         XCTAssertEqual( raw_inds.count, 363)
+        
+        /*
         let df = raw_inds.locales(stratum: "Population", values: ["101","102"] )
         
         let zmp = AlleleFrequencies( loci: df.getLoci(named: "ZMP"))
@@ -30,7 +32,7 @@ final class FrequencyTests: XCTestCase {
         
         
         print("\(aml)")
-        
+        */
     }
     
     

@@ -22,8 +22,7 @@ import CoreLocation
 public class Individual: Identifiable, Codable, Hashable, Equatable {
     
     public var id: UUID
-    public var location: CLLocationCoordinate2D
-    public var strata = [String:String]()
+    public var location: CLLocationCoordinate2D?
     public var loci = [String:Locus]()
     
     enum CodingKeys: String, CodingKey {
@@ -36,14 +35,12 @@ public class Individual: Identifiable, Codable, Hashable, Equatable {
     
     public init() {
         self.id = UUID()
-        self.location  = CLLocationCoordinate2DMake(0.0, 0.0)
     }
     
     
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self )
         id = try values.decode( UUID.self , forKey: .id )
-        strata = try values.decode( Dictionary.self, forKey: .strata )
         loci = try values.decode( Dictionary.self, forKey:  .loci )
         let lon = try values.decode( Double.self, forKey: .longitude )
         let lat = try values.decode( Double.self, forKey: .latitude )
@@ -55,10 +52,11 @@ public class Individual: Identifiable, Codable, Hashable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self )
         try container.encode( id, forKey: .id )
-        try container.encode( strata, forKey: .strata )
         try container.encode( loci, forKey: .loci )
-        try container.encode( location.latitude, forKey: .latitude )
-        try container.encode( location.longitude, forKey: .longitude )
+        if let coord = self.location {
+            try container.encode( coord.latitude, forKey: .latitude )
+            try container.encode( coord.longitude, forKey: .longitude )
+        }
     }
     
     public func hash(into hasher: inout Hasher) {
@@ -71,40 +69,6 @@ public class Individual: Identifiable, Codable, Hashable, Equatable {
     }
     
     
-    func setValueForKey( key: String, value: String) {
-        if loci.keys.contains( key ) {
-            loci[key, default: Locus() ].setAlleles(values: value )
-        }
-        else if strata.keys.contains( key ) {
-            strata[key, default: "" ] = value
-        }
-        else if key == "Longitude" {
-            location.longitude = Double( value.numericDecimalString ) ?? 0.0
-        }
-        else if key == "Latitude" {
-            location.latitude = Double( value.numericDecimalString ) ?? 0.0
-        }
-    }
-    
-    
-    func dataForKey( key: String) -> String {
-        if loci.keys.contains( key ) {
-            return loci[key]?.description ?? ""
-        }
-        else if strata.keys.contains( key ) {
-            return strata[key] ?? ""
-        }
-        else if key == "Longitude" {
-            return String(format: "%.4f", location.longitude)
-        }
-        else if key == "Latitude" {
-            return String(format: "%.4f", location.latitude)
-        }
-        else {
-            return "-NA-"
-        }
-    }
-    
 }
 
 
@@ -113,39 +77,23 @@ public class Individual: Identifiable, Codable, Hashable, Equatable {
 
 
 extension Individual: CustomStringConvertible {
+    
+    /// Overload for printing
     public var description: String {
+        
         var ret = ""
         
-        var keys = self.strata.keys.sorted() 
-        if keys.contains("Population") {
-            keys.removeAll(where: {$0 == "Population"})
-            keys.append("Population")
+        if let coord = self.location {
+            ret += String("\(coord.longitude) \(coord.latitude) ")
         }
         
-        for key in keys {
-            ret += String( "\(strata[key, default: ""]) ")
-        }
-        ret += String("\(location.longitude) \(location.latitude) ")
         for key in loci.keys.sorted() {
             ret += String( "\(loci[key, default: Locus()]) ")
         }
+        
         return ret
     }
 }
 
 
 
-// Mark: - Genetic Distance Features
-extension Individual {
-    
-    static func -(lhs: Individual, rhs: Individual) -> Double {
-        var ret: Double = 0.0
-        for key in lhs.loci.keys {
-            let loc1 = lhs.loci[key, default: Locus()]
-            let loc2 = rhs.loci[key, default: Locus()]
-            ret += loc1 - loc2
-        }
-        return ret
-    }
-    
-}

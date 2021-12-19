@@ -19,20 +19,12 @@ public class AMOVAAnalysis {
         return individuals.count
     }
     
-    public var partitionName: String {
-        didSet {
-            let strata = self.individuals.compactMap{ $0.strata[ self.partitionName ] }
-            H = Matrix.idempotentHatMatrix(strata: strata )
-            self.SSModel = (H .* C).trace
-        }
-    }
-    
     public var dfTotal: Int {
         return self.count - 1
     }
     
     public var dfModel: Int {
-        return individuals.levelsForStratum(key: partitionName).count - 1
+        return 1 // individuals.levelsForStratum(key: partitionName).count - 1
     }
     
     public var dfError: Int {
@@ -71,20 +63,17 @@ public class AMOVAAnalysis {
         let N = self.individuals.count
         
         let D = Matrix(N,N,0.0)
-        for i in 0 ..< N {
-            for j in (i+1) ..< N {
-                let dist = individuals[i] - individuals[j]
-                D[i,j] = dist
-                D[j,i] = dist
-            }
-        }
+        
+//        for i in 0 ..< N {
+//            for j in (i+1) ..< N {
+//                let dist = individuals[i] - individuals[j]
+//                D[i,j] = dist
+//                D[j,i] = dist
+//            }
+//        }
         self.C = D.asCovariance
-        self.partitionName = stratum 
+        //self.partitionName = stratum
     }
     
     
-    public func partitionBy( stratum: String) -> String {
-        self.partitionName = stratum
-        return stratum.capitalized
-    }
 }
