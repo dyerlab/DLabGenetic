@@ -108,21 +108,6 @@ extension Locus {
         return ret
     }
     
-    /*
-     Estimates genetic distance between two loci using amova
-     */
-    public static func - (lhs: Locus, rhs: Locus) -> Double {
-        if lhs == rhs || lhs.isEmpty || rhs.isEmpty {
-            return 0.0
-        }
-        var allAlleles = lhs.alleles
-        allAlleles.append(contentsOf: rhs.alleles)
-        let allelesToSet: [String] = Set<String>( allAlleles ).unique()
-        
-        let x = lhs.asVector(alleles: allelesToSet )
-        let y = rhs.asVector(alleles: allelesToSet )
-        
-        return amovaDistance( x, y )
-    }
+
     
 }

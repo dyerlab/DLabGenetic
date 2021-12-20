@@ -12,6 +12,43 @@ import DLabMatrix
 
 final class AMOVATests: XCTestCase {
 
+    func testIndividualAMOVADistance() throws {
+        
+        let data = DefaultIndividuals(level: DefaultDataLevel.population )
+        
+        XCTAssertEqual( data.individuals.count, 6)
+        
+        
+        
+        
+    }
+    
+    
+    func testLocusAMOVADistance() throws {
+        let locNull = Locus()
+        let locAA  = Locus(raw: "A:A")
+        let locAB  = Locus(raw: "A:B")
+        let locBB  = Locus(raw: "B:B")
+        let locAC  = Locus(raw: "C:A")
+        let locBC  = Locus(raw: "B:C")
+        let locCD  = Locus(raw: "C:D")
+     
+        XCTAssertEqual( AMOVADistance( loc1: locAA, loc2: locAA), 0.0, accuracy: 0.00001 )
+        XCTAssertEqual( AMOVADistance( loc1: locAA, loc2: locAB), 1.0, accuracy: 0.00001 )
+        XCTAssertEqual( AMOVADistance( loc1: locAB, loc2: locAA), 1.0, accuracy: 0.00001 )
+        XCTAssertEqual( AMOVADistance( loc1: locAA, loc2: locAC), 1.0, accuracy: 0.00001 )
+        XCTAssertEqual( AMOVADistance( loc1: locAA, loc2: locBB), 4.0, accuracy: 0.00001 )
+        XCTAssertEqual( AMOVADistance( loc1: locAB, loc2: locBC), 1.0, accuracy: 0.00001 )
+        XCTAssertEqual( AMOVADistance( loc1: locAA, loc2: locBC), 3.0, accuracy: 0.00001 )
+        XCTAssertEqual( AMOVADistance( loc1: locAB, loc2: locCD), 2.0, accuracy: 0.00001 )
+        
+        XCTAssertEqual( AMOVADistance( loc1: locNull, loc2: locAA), 0.0 )
+        XCTAssertEqual( AMOVADistance( loc1: locAA, loc2: locNull), 0.0 )
+        XCTAssertEqual( AMOVADistance( loc1: locNull, loc2: locAB), 0.0 )
+        XCTAssertEqual( AMOVADistance( loc1: locAB, loc2: locNull), 0.0 )
+    }
+
+    
     func testExample() throws {
         /*
         let raw_inds = DefaultIndividuals()

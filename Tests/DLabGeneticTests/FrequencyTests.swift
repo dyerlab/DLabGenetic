@@ -10,7 +10,6 @@ import XCTest
 
 final class FrequencyTests: XCTestCase {
 
-   
     func testExample() throws {
         let pop = DefaultIndividuals(level: .all)
         XCTAssertEqual( pop.individuals.count, 363)
@@ -18,20 +17,12 @@ final class FrequencyTests: XCTestCase {
         if let mainland = pop.substratum(named: "Mainland") {
             print("\(mainland)")
             XCTAssertEqual( mainland.individuals.count, 36)
-
         }
         
-        let df = pop.individualsFrom(named: ["Mainland"])
-        
-        
-        
-        let locZMP = df.getLoci(named: "ZMP")
-        for item in locZMP {
-            print( item )
-        }
-            
-        /*
-        let zmp = AlleleFrequencies( loci: locZMP)
+        let df = pop.individualsFrom(named: ["101","102"])
+        XCTAssertEqual( df.count, 17 )
+    
+        let zmp = AlleleFrequencies( loci: df.getLoci(named: "ZMP"))
         XCTAssertEqual( zmp.alleles, ["1"] )
         XCTAssertEqual( zmp.frequency(allele: "1"), 1.0 )
         XCTAssertEqual( zmp.frequency(allele: "2"), 0.0 )
@@ -40,15 +31,8 @@ final class FrequencyTests: XCTestCase {
         XCTAssertEqual( aml.alleles, ["8","11"])
         XCTAssertEqual( aml.frequency(allele: "8"), 1.0 / 3.0 )
         XCTAssertEqual( aml.frequency(allele: "11"), 2.0 / 3.0 )
-        
-        
-        print("\(aml)")
-*/
     }
-    
-    
-    
-
-   
 
 }
+
+

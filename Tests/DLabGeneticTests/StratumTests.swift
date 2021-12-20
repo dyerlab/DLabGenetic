@@ -9,8 +9,8 @@ import XCTest
 @testable import DLabGenetic
 
 class StratumTests: XCTestCase {
-
-
+    
+    
     func testDefaults() throws {
         
         let pop = DefaultIndividuals(level: .population )
@@ -24,7 +24,11 @@ class StratumTests: XCTestCase {
         
         
     }
-
+    
+    
+    
+    
+    
     
     func testAddIndividual() throws {
         
@@ -93,7 +97,63 @@ class StratumTests: XCTestCase {
         XCTAssertEqual( cape.childCount, 0 )
         XCTAssertEqual( cape.individuals.count, 6 )
         XCTAssertEqual( cape.childLevel, "No Labels")
-                        
+        
     }
+    
+    
+    
+    func testSubstrataStuff() throws {
+        
+        let data = DefaultIndividuals(level: .all )
+        
+        let levels = data.nestedLevels.sorted()
+        
+        XCTAssertEqual( levels, ["All", "Cluster", "Population", "Species"])
+        
+        let all = data.stratumIdentifierForIndividuals(targetLevel: "All")
+        XCTAssertEqual( all.count, 363)
+        XCTAssertEqual( Array(Set(all)).count, 1 )
+        
+        let population = data.stratumIdentifierForIndividuals(targetLevel: "Population")
+        XCTAssertEqual( population.count, 363)
+        let popUniq = Array(Set(population))
+        print(popUniq)
+        XCTAssertEqual( popUniq.count, 39 )
+        
+        let cluster = data.stratumIdentifierForIndividuals(targetLevel: "Cluster")
+        XCTAssertEqual( cluster.count, 363)
+        let clusterUniq = Array(Set(cluster))
+        print(clusterUniq)
+        XCTAssertEqual( clusterUniq.count, 5 )
+        
+        let species = data.stratumIdentifierForIndividuals(targetLevel: "Species")
+        XCTAssertEqual( species.count, 363)
+        let speciesUniq = Array(Set(species))
+        print( speciesUniq )
+        XCTAssertEqual( speciesUniq.count, 3 )
+        
+        
+    }
+    
+    func testIndividualOrderingStuff() throws {
+        
+        let data = DefaultIndividuals(level: .all)
+        
+        guard let pop156 = data.substratum(named: "156") else {
+            throw DLabGeneticErrors( message: "population 156 not found",
+                                     type: .notFound)
+        }
+        XCTAssertEqual( data.individuals[0], pop156.individuals[0])
+        XCTAssertEqual( data.individuals[5], pop156.individuals[5])
+        
+        
+        guard let clusterSCBPA = data.substratum(named: "SCBP-A") else {
+            throw DLabGeneticErrors(message: "Can't find SCBP-A", type: .notFound)
+        }
+        XCTAssertEqual( data.individuals[0], clusterSCBPA.individuals[0] )
+        XCTAssertEqual( pop156.individuals[5], clusterSCBPA.individuals[5] )
+        
+    }
+    
     
 }

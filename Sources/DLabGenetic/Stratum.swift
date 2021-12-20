@@ -44,6 +44,16 @@ public class Stratum {
         return self.substrata.first?.level ?? "No Labels"
     }
     
+    /// Nested Levels
+    public var nestedLevels: [String] {
+        var ret = [ self.level ]
+        for stratum in self.substrata {
+            ret.append(contentsOf: stratum.nestedLevels )
+        }
+        return Set<String>(ret).unique()
+    }
+    
+    
     /// All the substrata under this one.
     var substrata: [Stratum] = []
     
@@ -127,6 +137,25 @@ public class Stratum {
     
     
     /**
+     Find the vector of stratum names for a given level
+     */
+    
+    func stratumIdentifierForIndividuals( targetLevel: String ) -> [String] {
+        var ret = [String]()
+        if targetLevel == self.level {
+            ret.append(contentsOf: Array(repeating: self.label, count: self.individuals.count))
+        } else {
+            for substratum in substrata {
+                ret.append( contentsOf: substratum.stratumIdentifierForIndividuals(targetLevel: targetLevel) )
+            }
+        }
+        return ret
+    }
+    
+    
+    
+    
+    /**
      Add individuals to this or some substratum.  This will automatically populate subgroups.
      - Parameters:
         - individual: The individual object class
@@ -139,22 +168,16 @@ public class Stratum {
         var sublevels = levels
         
         if substrata.count == 0 {
-            print("Adding individual to \(self.label)")
             self._individuals.append( individual )
         } else {
             
             let nextStratum = substrata.removeFirst()
             let nextLevel = sublevels.removeFirst()
-            
-            print("looking for child \(nextStratum):\(nextLevel)")
-            
             if let child = substratum(named: nextStratum ) {
-                print(" found \(nextStratum)")
                 child.addIndividual(individual: individual, strata: substrata, levels: sublevels)
             }
             else {
                 let child = Stratum(label: nextStratum, level: nextLevel)
-                print(" no \(nextStratum), making it")
                 self.addSubstratum(stratum: child )
                 child.addIndividual(individual: individual, strata: substrata, levels: sublevels)
             }
@@ -177,3 +200,8 @@ extension Stratum: CustomStringConvertible {
     }
     
 }
+
+
+
+
+

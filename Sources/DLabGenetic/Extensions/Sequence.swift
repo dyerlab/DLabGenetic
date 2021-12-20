@@ -19,8 +19,20 @@
 import Foundation
 
 extension Sequence where Iterator.Element: Hashable {
+    
     func unique() -> [Iterator.Element] {
         var seen: Set<Iterator.Element> = []
         return filter { seen.insert($0).inserted }
     }
+    
+}
+
+
+/// Extension for array objects to produce a historgram dictionary
+extension Sequence where Element: Hashable {
+    
+    func histogram() -> [Element: Int] {
+        return self.reduce(into: [:]) { counts, elem in counts[elem, default: 0] += 1 }
+    }
+    
 }

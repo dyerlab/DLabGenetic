@@ -13,12 +13,12 @@ class DiversityParametersTest: XCTestCase {
 
 
     func testExample() throws {
-        /*
-        let raw_inds = DefaultIndividuals()
         
-        let df = raw_inds.locales(stratum: "Population", values: ["101","102"] )
+        let data = DefaultIndividuals(level: .all)
         
-        let aml = DiversityParameters( frequencies: AlleleFrequencies( loci: df.getLoci(named: "AML") ) )
+        let individuals = data.individualsFrom(named: ["101","102"] )
+        
+        let aml = DiversityParameters( frequencies: AlleleFrequencies( loci: individuals.getLoci(named: "AML") ) )
         print("\(aml)")
         XCTAssertEqual( aml.A, 2 )
         XCTAssertEqual( aml.A95, 2 )
@@ -27,7 +27,7 @@ class DiversityParametersTest: XCTestCase {
         XCTAssertEqual( aml.He, 1.0 - ( pow( (1.0/3.0), 2.0) + pow( (2.0/3.0), 2.0 )   ) )
         XCTAssertEqual( aml.F, 1.0 )
         
-        let zmp = DiversityParameters( frequencies: AlleleFrequencies( loci: df.getLoci(named: "ZMP"))  )
+        let zmp = DiversityParameters( frequencies: AlleleFrequencies( loci: individuals.getLoci(named: "ZMP"))  )
         print("\(zmp)")
         XCTAssertEqual( zmp.A, 1 )
         XCTAssertEqual( zmp.A95, 1 )
@@ -35,7 +35,7 @@ class DiversityParametersTest: XCTestCase {
         XCTAssertEqual( zmp.Ho, 0.0 )
         XCTAssertEqual( zmp.He, 0.0 )
         XCTAssertEqual( zmp.F, 0.0 )
-        */
+        
         
     }
 

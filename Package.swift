@@ -12,7 +12,7 @@ let package = Package(
             targets: ["DLabGenetic"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/dyerlab/DLabMatrix", .upToNextMajor(from: "1.0.2")),
+        .package(url: "https://github.com/dyerlab/DLabMatrix", .upToNextMajor(from: "1.0.3")),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
