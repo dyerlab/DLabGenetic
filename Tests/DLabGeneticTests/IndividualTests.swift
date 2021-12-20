@@ -29,15 +29,16 @@ final class IndividualTests: XCTestCase {
         
     }
 
-    /*
+    
     func testAMOVAIndividuals() throws {
         
-        let raw_inds = DefaultIndividuals()
-        XCTAssertEqual( raw_inds.count, 363)
+        let data = DefaultIndividuals(level: .all).individuals
+        XCTAssertEqual( data.count, 363)
         
-        // let df = raw_inds.locales(stratum: "Population", values: ["101","102"] )
+        
+        
 
     }
-     */
+    
     
 }

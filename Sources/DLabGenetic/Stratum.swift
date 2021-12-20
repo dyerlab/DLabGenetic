@@ -29,6 +29,21 @@ public class Stratum {
     /// The parent of this stratum
     public weak var parent: Stratum?
     
+    /// Is this a sampling locale (e.g., has individuals)
+    public var isLocale: Bool {
+        return _individuals.count > 0
+    }
+    
+    /// Number of children at next level
+    public var childCount: Int {
+        return substrata.count
+    }
+    
+    /// Sublevel Labels
+    public var childLevel: String {
+        return self.substrata.first?.level ?? "No Labels"
+    }
+    
     /// All the substrata under this one.
     var substrata: [Stratum] = []
     
@@ -37,15 +52,16 @@ public class Stratum {
     
     /// All individuals at this level and all other levels.
     public var individuals: [Individual] {
+        var ret = [Individual]()
+        
         if substrata.isEmpty {
-            return self._individuals
+            ret = self._individuals
         } else {
-            var ret = [Individual]()
             for substratum in substrata {
                 ret.append(contentsOf: substratum.individuals)
             }
-            return ret
         }
+        return ret
     }
     
     /**
@@ -73,10 +89,10 @@ public class Stratum {
      - Returns: The stratum or nil
      */
     public func substratum(named: String) -> Stratum? {
-        if label == self.label { return self }
+        if named == self.label { return self }
         
         for child in substrata {
-            if let found = child.substratum(named: label ) {
+            if let found = child.substratum(named: named ) {
                 return found
             }
         }
@@ -118,44 +134,45 @@ public class Stratum {
         - levels: A vector of level names.
      */
     public func addIndividual( individual: Individual, strata: [String], levels: [String] ) {
+
+        var substrata = strata
+        var sublevels = levels
         
-        if strata.count == 0 {
+        if substrata.count == 0 {
+            print("Adding individual to \(self.label)")
             self._individuals.append( individual )
-        }
-        else {
-            var remainingStrata = strata
-            var remainingLevels = levels
+        } else {
             
-            let lvel = remainingLevels.removeFirst()
-            let name = remainingStrata.removeFirst()
+            let nextStratum = substrata.removeFirst()
+            let nextLevel = sublevels.removeFirst()
             
+            print("looking for child \(nextStratum):\(nextLevel)")
             
-            if let stratum = self.substratum(named: name) {
-                stratum.addIndividual(individual: individual,
-                                      strata: remainingStrata,
-                                      levels: remainingLevels)
+            if let child = substratum(named: nextStratum ) {
+                print(" found \(nextStratum)")
+                child.addIndividual(individual: individual, strata: substrata, levels: sublevels)
             }
             else {
-                let stratum = Stratum(label: name, level: lvel)
-                stratum.addIndividual(individual: individual,
-                                      strata: remainingStrata,
-                                      levels: remainingLevels)
+                let child = Stratum(label: nextStratum, level: nextLevel)
+                print(" no \(nextStratum), making it")
+                self.addSubstratum(stratum: child )
+                child.addIndividual(individual: individual, strata: substrata, levels: sublevels)
             }
         }
     }
-    
-    
-    
 }
 
 extension Stratum: CustomStringConvertible {
     
     /// Overloading of the
     public var description: String {
-        var ret = "\(label): with \(_individuals.count) ->\n"
+        var ret = "\(label) {"
         if !substrata.isEmpty {
-            ret += " { " + substrata.map { $0.description }.joined(separator: ", ") + " } "
+            ret += substrata.map { $0.description }.joined(separator: ", ")
+        } else {
+            ret += "N = \(_individuals.count) "
         }
+        ret += "} "
         return ret
     }
     
