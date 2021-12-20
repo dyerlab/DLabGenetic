@@ -20,6 +20,7 @@ class AMOVA  {
     /// For all subsets in the dataset, here are the idempotent design matrices
     var H: [String : Matrix] = [:]
     
+    
     init( data: Stratum ) {
         let individuals = data.individuals
         let N = individuals.count
@@ -39,13 +40,9 @@ class AMOVA  {
         
         // Set up the partitions
         for level in data.nestedLevels {
-            
             let labels = data.stratumIdentifierForIndividuals(targetLevel: level )
-            
-            let h = idempotentHatMatrix( labels )
-            
+            H[level] = Matrix.IdempotentHatMatrix( strata: labels )
         }
-        
     }
     
 }
