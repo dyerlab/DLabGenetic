@@ -10,17 +10,25 @@
 //         Making Population Genetic Software That Doesn't Suck
 //
 //  GeneticStudio
+//  GeneticError.swift
 //
 //  Created by Rodney Dyer on 10/27/21.
 //  Copyright (c) 2021 Rodney J Dyer.  All Rights Reserved.
 //
 
+
 import Foundation
 
-final public class FrequencySpectra {
+/**
+ Custom defined errors for dealing with problems with genetic components
+ */
+struct GeneticError: Error {
     
-    //public var loci
+    /// The kind of error found.
+    let type: GeneticErrorType
     
+    /// The message associated with the error
+    let message: String
     
     
 }

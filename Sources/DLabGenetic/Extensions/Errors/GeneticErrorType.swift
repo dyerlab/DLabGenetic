@@ -14,13 +14,18 @@
 //  Created by Rodney Dyer on 10/27/21.
 //  Copyright (c) 2021 Rodney J Dyer.  All Rights Reserved.
 //
+//  GeneticErrorType.swift
 
 import Foundation
 
-final public class FrequencySpectra {
+/**
+ Categories of Error types associated with genetic operations.
+ */
+enum GeneticErrorType: Int  {
     
-    //public var loci
+    /// Errors associated with missing components
+    case NotFound
     
-    
-    
+    /// Errors associated with not being compatable
+    case NotComptable
 }

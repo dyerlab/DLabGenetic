@@ -140,15 +140,14 @@ class StratumTests: XCTestCase {
         let data = DefaultIndividuals(level: .all)
         
         guard let pop156 = data.substratum(named: "156") else {
-            throw DLabGeneticErrors( message: "population 156 not found",
-                                     type: .notFound)
+            throw GeneticError( type: .NotFound, message: "Population 156 not found" )
         }
         XCTAssertEqual( data.individuals[0], pop156.individuals[0])
         XCTAssertEqual( data.individuals[5], pop156.individuals[5])
         
         
         guard let clusterSCBPA = data.substratum(named: "SCBP-A") else {
-            throw DLabGeneticErrors(message: "Can't find SCBP-A", type: .notFound)
+            throw GeneticError(type: .NotFound, message: "Can't find SCBP-A" )
         }
         XCTAssertEqual( data.individuals[0], clusterSCBPA.individuals[0] )
         XCTAssertEqual( pop156.individuals[5], clusterSCBPA.individuals[5] )
