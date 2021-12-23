@@ -1,5 +1,3 @@
-![Dyerlab logo](https://live.staticflickr.com/65535/51722755557_2368c8fb01_o_d.jpg)
-
 # DLabGenetic
 
 ![](https://img.shields.io/badge/license-GPLv3-green) ![](https://img.shields.io/badge/maintained%3F-Yes-green) ![](https://img.shields.io/badge/swift-5.5-green) ![](https://img.shields.io/badge/iOS-14.0-green) ![](https://img.shields.io/badge/macOS-11-green)
@@ -10,7 +8,7 @@ This package is the foundation layer for all genetic data analysis objects and r
 
 
 <a name="Installation"></a>
-## Installation
+# Installation
 
 **Swift Package Manager** (XCode 13)
 
@@ -29,15 +27,16 @@ This package defines the following objects objects:
 - <a href="#Locus">Locus</a>
 - <a href="#Individual">Individual</a>
 - <a href="#AlleleFrequencies">AlleleFrequencies</a>
+- <a href="#Analyses">Analysis</a>
 
 This package depends upon the [DLMatrix](https://github.com/dyerlab/DLMatrix) Swift Package for underlying vector and matrix representations.
 
 ---
 
-## Class Objects
+# Class Objects
 
 <a name="Locus"></a>
-### Locus 
+## Locus 
 
 The locus class has the following properties:
 - `id: UUID`
@@ -65,8 +64,8 @@ Operators overloaded to handle `Locus` objects include:
 - `==` to determine equality of genotypes.
 
 
-<a name="Locus"></a>
-### Individual
+<a name="Individual"></a>
+## Individual
 
 The `Individual` class holds strata and locus information for a georeferenced individual record.  
 
@@ -110,5 +109,9 @@ Extensions to `Array where Element == Individual` include the following function
 
 
 
-<a name="Locus"></a>
-### AlleleFrequencies
+<a name="AlleleFrequencies"></a>
+## AlleleFrequencies
+
+
+<a name="Analysis"></a>
+## Analysis
