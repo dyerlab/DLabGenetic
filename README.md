@@ -1,6 +1,6 @@
 # DLabGenetic
 
-![](https://img.shields.io/badge/license-GPLv3-green) ![](https://img.shields.io/badge/maintained%3F-Yes-green) ![](https://img.shields.io/badge/swift-5.5-green) ![](https://img.shields.io/badge/iOS-14.0-green) ![](https://img.shields.io/badge/macOS-11-green)
+![](https://img.shields.io/github/v/tag/dyerlab/DLabGenetic?color=green) ![](https://img.shields.io/badge/license-GPLv3-green) ![](https://img.shields.io/badge/swift-5.5-green) ![](https://img.shields.io/badge/iOS-14.0-green) ![](https://img.shields.io/badge/macOS-11-green) 
 
 Current Version: 1.0.0
 
