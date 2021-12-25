@@ -8,18 +8,31 @@
 //                        |_ _/
 //
 //         Making Population Genetic Software That Doesn't Suck
-//
+// 
 //  GeneticStudio
-//  DiversityOutput.swift
+//  DiversityType.swift
 //
-//  Created by Rodney Dyer on 10/27/21.
+//  Created by Rodney Dyer on 10/28/21.
 //  Copyright (c) 2021 Rodney J Dyer.  All Rights Reserved.
 //
 
-
 import Foundation
 
-enum DiversityOutput: Int {
-    case graphical
-    case tabular
+/**
+ An enum for specifying the diversity analysis so I can use a single ``DiversityForStrata`` implementation
+    to cover all the potentaial 
+ */
+enum DiversityType: String {
+    
+    /// Frequency Diversity
+    case Frequency
+    
+    /// Allelic Diversity
+    case Allelic
+    
+    /// Genotypic Diversity
+    case Genotype
+    
+    /// Spatial Diversity
+    case Spatial
 }

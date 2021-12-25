@@ -22,12 +22,11 @@ import CoreLocation
 /**
  Extensions for arrays of coordinates
  */
-
 extension Array where Element == CLLocationCoordinate2D {
     
     /// Finds the centroid coordinate for an array of values
     /// - Returns: A 4-element tupple of minLon, maxLon, minLat, maxLat
-    func bounds() -> (Double, Double, Double, Double) {
+    public func bounds() -> (Double, Double, Double, Double) {
         var maxLat: Double = -200;
         var maxLon: Double = -200;
         var minLat: Double = 200;
@@ -56,7 +55,7 @@ extension Array where Element == CLLocationCoordinate2D {
     
     /// Returns the centroid of the values
     /// - Returns: A ``CLLocationCoordinate2D`` representing the center of the array of values.
-    var center: CLLocationCoordinate2D {
+    public var center: CLLocationCoordinate2D {
         
         let range = self.bounds()
         

@@ -29,12 +29,19 @@ import DLabMatrix
 
 extension Array where Element == Individual {
 
-    
-    var locusKeys: [String] {
+    /**
+     Names of the loci
+     - Returns: An array of locus names.
+     */
+    public var locusKeys: [String] {
         return self.first?.loci.keys.sorted() ?? [String]()
     }
     
-    var allKeys: [String] {
+    /**
+     All keys for individual including loci and coordinates.
+     - Returns: Array of keys.
+     */
+    public var allKeys: [String] {
         var ret = [String]()
         if let ind = self.first {
             ret.append(contentsOf: ["Longitude","Latitude"])
@@ -43,51 +50,17 @@ extension Array where Element == Individual {
         return ret
     }
     
-    var locations: [CLLocationCoordinate2D] {
+    /**
+     All locations
+     - Returns: Array of `CLLocationCoordinate2D` objects from all individuals
+     */
+    public var locations: [CLLocationCoordinate2D] {
         return self.compactMap{ $0.location }
     }
-    
-    var center: CLLocationCoordinate2D {
-        return self.locations.center
-    }
-    
-    var coordinateRegion: MKCoordinateRegion {
-        return MKCoordinateRegion(coordinates:  self.locations )
-    }
-    
-    /*
-    func levelsForStratum( key: String ) -> [String] {
-        return Set( self.map { $0.strata[ key, default: ""] } ).unique().sorted()
-    }
-     */
         
-    func getLoci( named: String ) -> [Locus] {
+    public func getLoci( named: String ) -> [Locus] {
         return self.compactMap{ $0.loci[named] }
     }
-        
-    /*
-    func locales(stratum: String, values: [String] ) -> [Individual] {
-        var ret = [Individual]()
-        let groups = partition(by: stratum)
-        for locale in values {
-            ret.append(contentsOf: groups[locale, default: [Individual]() ] )
-        }
-        return ret
-    }
-    
-    
-    func frequenciesFor( locus: String ) -> AlleleFrequencies {
-        return AlleleFrequencies(loci: self.compactMap( { $0.loci[locus] } ))
-    }
-
-    
-    func frequenciesFor(locus: String, stratum: String, level: String) -> AlleleFrequencies {
-        return individualsAtStratum(stratum: stratum, level: level).frequenciesFor(locus: locus )
-    }
-     
-     */
-   
-    
     
 }
 

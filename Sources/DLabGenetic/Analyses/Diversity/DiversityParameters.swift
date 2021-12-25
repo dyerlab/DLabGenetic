@@ -18,16 +18,35 @@
 
 import Foundation
 
-struct DiversityParameters: Codable, Hashable {
+/**
+ Structure for estimating diversity parameters from Allele Frequencies.
+ */
+public struct DiversityParameters: Codable, Hashable {
 
-    var A: Int
-    var A95: Int
-    var Ae: Double
-    var Ho: Double
-    var He: Double
-    var F: Double
+    /// Number of Alleles
+    public var A: Int
     
-    init( frequencies: AlleleFrequencies ) {
+    /// Number of alleles with frequency > 5%
+    public var A95: Int
+    
+    /// Effective allelic diversity
+    public var Ae: Double
+    
+    /// Observed heterozygosity
+    public var Ho: Double
+    
+    /// Expected Heterozygosity
+    public var He: Double
+    
+    /// Inbreeding
+    public var F: Double
+    
+    /**
+     Default initializer
+     - Parameters:
+        - frequencies: An ``AlleleFrequencies`` object.
+     */
+    public init( frequencies: AlleleFrequencies ) {
         let alleles = frequencies.alleles
         let freqs = frequencies.frequenciesFor(alleles: alleles )
         
@@ -46,7 +65,7 @@ struct DiversityParameters: Codable, Hashable {
 
 extension DiversityParameters: CustomStringConvertible {
     
-    var description: String {
+    public var description: String {
         var ret = "DiversityParameters: \n"
         ret += String("A: \(A)\n")
         ret += String("A95: \(A95)\n")

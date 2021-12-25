@@ -20,17 +20,21 @@
 import Foundation
 import DLabMatrix
 
-
-func AMOVADistance( ind1: Individual, ind2: Individual) -> Double {
+/**
+ Estimation of multilocus genetic distances between two individuals
+ - Parameters:
+    - ind1: The first ``Individual``
+    - ind2: The second ``Individual``
+ - Returns: A `Double` estimating the additive distance between the two individuals.
+ */
+public func AMOVADistance( ind1: Individual, ind2: Individual) -> Double {
     var dist: Double = 0.0
     
     for locus in Array(ind1.loci.keys) {
         
         if let lhs = ind1.loci[locus],
            let rhs = ind2.loci[locus] {
-            
             dist += AMOVADistance(loc1: lhs, loc2: rhs)
-
         }
     }
     
@@ -38,7 +42,14 @@ func AMOVADistance( ind1: Individual, ind2: Individual) -> Double {
 }
 
 
-func AMOVADistance( loc1: Locus, loc2: Locus) -> Double {
+/**
+ Single locus AMOVA distance estimation. Returns 0 for missing or empty data by default (does not estimate median genotype).
+ - Parameters:
+    - loc1: The first ``Locus``
+    - loc2: The second ``Locus``
+ - Returns: A double retpresenting
+ */
+public func AMOVADistance( loc1: Locus, loc2: Locus) -> Double {
     
     if loc1.isEmpty || loc2.isEmpty || loc1 == loc2 {
         return 0.0 

@@ -18,7 +18,10 @@
 
 import Foundation
 
-class AlleleFrequencies {
+/**
+ Main class for Allele Frequencies for a single locus
+ */
+public class AlleleFrequencies {
     
     private var counts = [String:Double]()
     private var n = 0.0
@@ -26,11 +29,11 @@ class AlleleFrequencies {
     var numHets = 0.0
     var numDiploid = 0.0
     
-    var frequencies: [Double] {
+    public var frequencies: [Double] {
         return frequenciesFor(alleles: self.alleles)
     }
     
-    var alleles: [String] {
+    public var alleles: [String] {
         get {
             return counts.keys.sorted {$0.localizedStandardCompare($1) == .orderedAscending}
         }
@@ -45,16 +48,16 @@ class AlleleFrequencies {
     
     
     
-    init() {}
+    public init() {}
     
-    init( loci: [Locus] ) {
+    public init( loci: [Locus] ) {
         for locus in loci {
             self.addLocus(loc: locus )
         }
     }
     
     
-    func addLocus( loc: Locus ) {
+    public func addLocus( loc: Locus ) {
         
         if loc.ploidy > 1 {
             numDiploid += 1.0
@@ -71,7 +74,7 @@ class AlleleFrequencies {
         }
     }
     
-    func frequency( allele: String) -> Double {
+    public func frequency( allele: String) -> Double {
         if n == 0.0 {
             return 0.0
         } else {
@@ -79,7 +82,7 @@ class AlleleFrequencies {
         }
     }
     
-    func frequenciesFor( alleles: [String] ) -> [Double] {
+    public func frequenciesFor( alleles: [String] ) -> [Double] {
         var ret = [Double]()
         
         for allele in alleles {
@@ -94,7 +97,7 @@ class AlleleFrequencies {
 
 extension AlleleFrequencies: CustomStringConvertible {
     
-    var description: String {
+    public var description: String {
         var ret = "Frequencies:\n"
         for allele in self.alleles.sorted() {
             ret += String("\(allele): \(frequency(allele: allele)) \n")
@@ -103,16 +106,4 @@ extension AlleleFrequencies: CustomStringConvertible {
     }
 }
 
-
-
-/*
-extension AlleleFrequencies {
-    
-    static func DefaultFrequencies() -> AlleleFrequencies {
-        let loci = DefaultIndividuals().compactMap{ $0.loci["LTRS"] }
-        let freqs = AlleleFrequencies(loci: loci )
-        return freqs
-    }
-}
- */
 

@@ -24,10 +24,13 @@ import Foundation
  */
 public protocol AnalysisProtocol {
     
+    /// Must provide type enum
     var type: AnalysisType { get }
     
+    /// Designated initializer, taking a stratum as input
     init( stratum: Stratum )
     
+    /// Designated run function to perform the analysis.
     func run()
     
 }
