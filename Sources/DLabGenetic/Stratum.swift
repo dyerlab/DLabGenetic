@@ -18,7 +18,7 @@
 
 import Foundation
 
-public class Stratum {
+public class Stratum: Codable  {
     
     /// The name of this particular stratum
     public var label: String
@@ -81,6 +81,10 @@ public class Stratum {
         self.label = label
         self.level = level
     }
+    
+    
+    
+    
         
     /**
      Add a substratum to this one.
@@ -200,7 +204,6 @@ extension Stratum: CustomStringConvertible {
     }
     
 }
-
 
 
 
