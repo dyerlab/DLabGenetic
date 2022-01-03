@@ -16,18 +16,22 @@
 //  Copyright (c) 2021 Rodney J Dyer.  All Rights Reserved.
 //
 
+import CoreLocation
 import Foundation
+import SwiftUI
 
 public class Stratum: Codable  {
-    
+        
     /// The name of this particular stratum
     public var label: String
     
     /// The stratigraific level of this stratum
     public var level: String
     
-    /// The parent of this stratum
-    public weak var parent: Stratum?
+    /// Is this empty of data
+    public var isEmpty: Bool {
+        return !isLocale && childCount == 0
+    }
     
     /// Is this a sampling locale (e.g., has individuals)
     public var isLocale: Bool {
@@ -53,6 +57,13 @@ public class Stratum: Codable  {
         return Set<String>(ret).unique()
     }
     
+    /// Hard coding the codability
+    enum CodingKeys: String, CodingKey {
+        case label
+        case level
+        case individuals
+        case substrata
+    }
     
     /// All the substrata under this one.
     var substrata: [Stratum] = []
@@ -82,8 +93,27 @@ public class Stratum: Codable  {
         self.level = level
     }
     
+    /**
+     Required init for Codable
+     */
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self )
+        self.label = try values.decode( String.self, forKey: .label )
+        self.level = try values.decode( String.self, forKey: .level )
+        self.substrata = try values.decode( Array.self, forKey: .substrata )
+        self._individuals = try values.decode( Array.self, forKey: .individuals )
+    }
     
-    
+    /**
+     Required encode
+     */
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self )
+        try container.encode( self.label, forKey: .label )
+        try container.encode( self.level, forKey: .level )
+        try container.encode( self.substrata, forKey: .substrata )
+        try container.encode( self._individuals, forKey: .individuals )
+    }
     
         
     /**
@@ -92,7 +122,6 @@ public class Stratum: Codable  {
         - stratum: The new stratum to add.
      */
     public func addSubstratum(stratum: Stratum) {
-        stratum.parent = self
         self.substrata.append( stratum )
     }
     
@@ -156,6 +185,60 @@ public class Stratum: Codable  {
         return ret
     }
     
+    
+    /**
+     Populate from csv data
+     - Parameters:
+        - data: A data object that contains CSV data.
+     */
+    public func loadFromCSV( data: Data ) {
+        guard let raw = String( data: data, encoding: .utf8) else { return  }
+        let lines = raw.components(separatedBy: "\n").map { $0.trimmingCharacters(in: CharacterSet.newlines).components(separatedBy: ",") }
+        
+        if lines.count < 2 {
+            return
+        }
+        let N = lines.count
+        let K = lines[0].count
+        
+        let header = lines[0].map{ $0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }
+        
+        // Check for longitude or latitude
+        if let idxLon = header.firstIndex(where: {$0 == "Longitude"} ),
+           let idxLat = header.firstIndex(where: {$0 == "Latitude"} ) {
+        
+            let mn = min( idxLat, idxLon )
+            let mx = max( idxLat, idxLon )
+            
+            var levels = [String]()
+            for i in 0 ..< mn {
+                levels.append( header[i] )
+            }
+            
+            for i in 1 ..< N {
+                let ind = Individual()
+                
+                if let lat = Double( lines[i][idxLat] ),
+                   let lon = Double( lines[i][idxLon] ) {
+                    ind.location = CLLocationCoordinate2D( latitude: lat,
+                                                           longitude: lon )
+                }
+                
+                var strata: [String] = []
+                for s in 0 ..< mn {
+                    strata.append( lines[i][s])
+                }
+                
+                for l in mx ..< K {
+                    let key = header[l]
+                    ind.loci[key] = Locus(raw: lines[i][l] )
+                }
+                
+                self.addIndividual(individual: ind, strata: strata, levels: levels)
+
+            }
+        }
+    }
     
     
     
