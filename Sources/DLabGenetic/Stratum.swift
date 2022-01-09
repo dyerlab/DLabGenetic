@@ -185,14 +185,23 @@ public class Stratum: Codable  {
         return ret
     }
     
+    /**
+     Populates from data
+     - Parameters:
+        - data: The data object that contains the CSV text data
+     */
+    public func loadFromData( data: Data ) {
+        guard let content = String( data: data, encoding: .utf8) else { return }
+        self.loadFromCSV( raw: content)
+    }
+    
     
     /**
-     Populate from csv data
+     Populate data from string values
      - Parameters:
         - data: A data object that contains CSV data.
      */
-    public func loadFromCSV( data: Data ) {
-        guard let raw = String( data: data, encoding: .utf8) else { return  }
+    public func loadFromCSV( raw: String  ) {
         let lines = raw.components(separatedBy: "\n").map { $0.trimmingCharacters(in: CharacterSet.newlines).components(separatedBy: ",") }
         
         if lines.count < 2 {
