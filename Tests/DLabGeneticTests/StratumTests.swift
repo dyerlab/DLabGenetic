@@ -155,4 +155,21 @@ class StratumTests: XCTestCase {
     }
     
     
+    
+    func testDefaultStratum() throws {
+        
+        let data = Stratum.DefaultStratum()
+        
+        XCTAssertEqual( data.individuals.count, 365 )
+        XCTAssertEqual( data.childLevel, "Region" )
+        
+        XCTAssertFalse( data.isLocale )
+        XCTAssertTrue( data.substratum(named: "Aqu")!.isLocale )
+        
+        XCTAssertEqual( data.childCount, 4 )
+        XCTAssertEqual( data.substratum(named: "SON")!.childCount, 3 )
+        
+    }
+    
+    
 }
