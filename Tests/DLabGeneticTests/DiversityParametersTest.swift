@@ -35,8 +35,6 @@ class DiversityParametersTest: XCTestCase {
         XCTAssertEqual( zmp.Ho, 0.0 )
         XCTAssertEqual( zmp.He, 0.0 )
         XCTAssertEqual( zmp.F, 0.0 )
-        
-        
     }
 
 

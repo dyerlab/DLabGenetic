@@ -24,22 +24,25 @@ import Foundation
 public struct DiversityParameters: Codable, Hashable {
 
     /// Number of Alleles
-    public var A: Int
+    public var A: Int = 0
     
     /// Number of alleles with frequency > 5%
-    public var A95: Int
+    public var A95: Int = 0
     
     /// Effective allelic diversity
-    public var Ae: Double
+    public var Ae: Double = 0.0
     
     /// Observed heterozygosity
-    public var Ho: Double
+    public var Ho: Double = 0.0
     
     /// Expected Heterozygosity
-    public var He: Double
+    public var He: Double = 0.0
     
     /// Inbreeding
-    public var F: Double
+    public var F: Double = 0.0
+    
+    /// Dummy initializer
+    public init() {}
     
     /**
      Default initializer
@@ -65,6 +68,7 @@ public struct DiversityParameters: Codable, Hashable {
 
 extension DiversityParameters: CustomStringConvertible {
     
+    /// Override of description for CustomStringConvertible
     public var description: String {
         var ret = "DiversityParameters: \n"
         ret += String("A: \(A)\n")
