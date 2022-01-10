@@ -45,9 +45,6 @@ public class AlleleFrequencies {
 
     }
     
-    
-    
-    
     public init() {}
     
     public init( loci: [Locus] ) {

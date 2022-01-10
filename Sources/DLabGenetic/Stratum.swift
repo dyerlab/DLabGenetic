@@ -152,6 +152,35 @@ public class Stratum: Codable  {
         return named.compactMap{ self.substratum(named: $0) }
     }
     
+    
+    /**
+     Returns names of stratum for a particualr level
+     - Parameters:
+        - Level: The level looking for
+     - Returns: An array of stratum names
+     */
+    public func substrataAtLevel( named: String ) -> [String] {
+        var ret = [String]()
+        if self.level == named {
+            ret.append( self.label )
+        } else {
+            for child in substrata {
+                ret.append(contentsOf: child.substrataAtLevel(named: named) )
+            }
+        }
+        return ret
+    }
+    
+    /**
+     Returns substrata for a particular level
+     - Parameters:
+        - level: Name of the strata level
+     - Returns: Array of Stratum
+     */
+    public func substrata( level: String ) -> [Stratum] {
+        return substrata(named: self.substrataAtLevel(named: level ))
+    }
+    
     /**
      Just return individuals from named substrata
      - Parameters:
@@ -184,6 +213,42 @@ public class Stratum: Codable  {
         }
         return ret
     }
+    
+    
+    
+    /**
+     Add individuals to this or some substratum.  This will automatically populate subgroups.
+     - Parameters:
+        - individual: The individual object class
+        - stratum: A vector of strata names.
+        - levels: A vector of level names.
+     */
+    public func addIndividual( individual: Individual, strata: [String], levels: [String] ) {
+
+        var substrata = strata
+        var sublevels = levels
+        
+        if substrata.count == 0 {
+            self._individuals.append( individual )
+        } else {
+            
+            let nextStratum = substrata.removeFirst()
+            let nextLevel = sublevels.removeFirst()
+            if let child = substratum(named: nextStratum ) {
+                child.addIndividual(individual: individual, strata: substrata, levels: sublevels)
+            }
+            else {
+                let child = Stratum(label: nextStratum, level: nextLevel)
+                self.addSubstratum(stratum: child )
+                child.addIndividual(individual: individual, strata: substrata, levels: sublevels)
+            }
+        }
+    }
+}
+
+// MARK: - Loading from file
+
+extension Stratum {
     
     /**
      Populates from data
@@ -250,37 +315,10 @@ public class Stratum: Codable  {
     }
     
     
-    
-    /**
-     Add individuals to this or some substratum.  This will automatically populate subgroups.
-     - Parameters:
-        - individual: The individual object class
-        - stratum: A vector of strata names.
-        - levels: A vector of level names.
-     */
-    public func addIndividual( individual: Individual, strata: [String], levels: [String] ) {
-
-        var substrata = strata
-        var sublevels = levels
-        
-        if substrata.count == 0 {
-            self._individuals.append( individual )
-        } else {
-            
-            let nextStratum = substrata.removeFirst()
-            let nextLevel = sublevels.removeFirst()
-            if let child = substratum(named: nextStratum ) {
-                child.addIndividual(individual: individual, strata: substrata, levels: sublevels)
-            }
-            else {
-                let child = Stratum(label: nextStratum, level: nextLevel)
-                self.addSubstratum(stratum: child )
-                child.addIndividual(individual: individual, strata: substrata, levels: sublevels)
-            }
-        }
-    }
 }
 
+
+// MARK: - Custom String Convertable
 extension Stratum: CustomStringConvertible {
     
     /// Overloading of the
