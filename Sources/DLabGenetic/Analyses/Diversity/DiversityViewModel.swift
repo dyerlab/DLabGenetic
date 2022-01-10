@@ -55,3 +55,17 @@ public class DiversityViewModel {
         return ret
     }
 }
+
+
+
+
+// MARK: - Default Stuff
+extension DiversityViewModel {
+    
+    public static func DefaultDiversityViewModel() -> DiversityViewModel {
+        return DiversityViewModel(stratum: Stratum.DefaultStratum(),
+                                  level: "Region",
+                                  locus: "MP20")
+    }
+    
+}

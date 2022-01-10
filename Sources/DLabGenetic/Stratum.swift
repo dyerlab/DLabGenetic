@@ -54,7 +54,7 @@ public class Stratum: Codable  {
         for stratum in self.substrata {
             ret.append(contentsOf: stratum.nestedLevels )
         }
-        return Set<String>(ret).unique()
+        return ret.unique()
     }
     
     /// Hard coding the codability

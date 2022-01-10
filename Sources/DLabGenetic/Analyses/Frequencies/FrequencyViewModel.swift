@@ -36,14 +36,18 @@ public class FrequencyViewModel {
                 parameters[ strata ] = AlleleFrequencies(loci: loci )
             }
         }
+        
+        // make sure everyon has the same alleles (all of them)
+        for (_,freq) in parameters {
+            freq.alleles = allAlleles
+        }
     }
-    
     
 }
 
 
-
-extension FrequencyViewModel: MatrixConvertable {
+// MARK: - MatrixConvertible
+extension FrequencyViewModel: MatrixConvertible {
     
     public func asMatrix() -> Matrix {
         let alleles = self.allAlleles
@@ -67,4 +71,16 @@ extension FrequencyViewModel: MatrixConvertable {
         return ret
     }
     
+}
+
+
+
+// MARK: - Default Stuff
+extension FrequencyViewModel {
+    
+    public static func DefaultFrequencyViewModel() -> FrequencyViewModel {
+        return FrequencyViewModel(stratum: Stratum.DefaultStratum(),
+                                  level: "Region",
+                                  locus: "MP20")
+    }
 }
