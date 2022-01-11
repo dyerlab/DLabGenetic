@@ -196,6 +196,29 @@ public class Stratum: Codable  {
     }
     
     /**
+     Get the label of the stratum that has this individual at the particular level.
+     - Parameters:
+        - level: Stratum level to look for
+        - individual: The individual in question.
+     - Returns: The ``label`` of the stratum with the indivudal
+     */
+    public func labelForIndividual( individual: Individual, atLevel: String) -> String? {
+        if atLevel == self.level && self.individuals.contains( individual ) {
+            return self.label
+        }
+        else {
+            for child in self.substrata {
+                if let label = child.labelForIndividual(individual: individual, atLevel: atLevel) {
+                    return label
+                }
+            }
+        }
+        return nil
+    }
+    
+    
+    
+    /**
      Just return individuals from named substrata
      - Parameters:
         - named: An array of named stratum from which to get individuals.
