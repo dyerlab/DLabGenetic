@@ -4,7 +4,7 @@
 
 Current Version: ![](https://img.shields.io/github/v/tag/dyerlab/DLabGenetic?color=green)
 
-This package is the foundation layer for all genetic data analysis objects and routines needed in software developed for the iOS and OSX platforms from the [DyerLab](https://dyerlab.org).  
+This package is the foundation layer for all genetic data analysis objects and routines needed in software developed for the iOS and OSX platforms from the [DyerLab](https://dyerlab.org).   
 
 
 <a name="Installation"></a>
