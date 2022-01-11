@@ -92,7 +92,7 @@ extension Locus: CustomStringConvertible {
 
 
 
-// Mark: - Genetic Distance
+// MARK: - Genetic Distance
 extension Locus {
 
     public func asVector( alleles: [String] ) -> Vector {
@@ -111,3 +111,5 @@ extension Locus {
 
     
 }
+
+
