@@ -57,6 +57,20 @@ public class Stratum: Codable  {
         return ret.unique()
     }
     
+    /// Get all the headers for the individuals in this stratum
+    public var allHeadings: [String] {
+        var ret = self.nestedLevels
+            
+        if let ind = individuals.first {
+            if let _ = ind.location {
+                ret.append( "Longitude" )
+                ret.append( "Latitude" )
+            }
+            ret.append(contentsOf: ind.loci.keys.sorted {$0.localizedStandardCompare($1) == .orderedAscending} )
+        }
+        return ret
+    }
+    
     /// Hard coding the codability
     enum CodingKeys: String, CodingKey {
         case label
