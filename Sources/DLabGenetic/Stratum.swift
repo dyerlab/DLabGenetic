@@ -21,6 +21,9 @@ import Foundation
 import SwiftUI
 
 public class Stratum: Codable  {
+    
+    /// Making it hashable
+    public var id = UUID()
         
     /// The name of this particular stratum
     public var label: String
@@ -73,6 +76,7 @@ public class Stratum: Codable  {
     
     /// Hard coding the codability
     enum CodingKeys: String, CodingKey {
+        case id
         case label
         case level
         case individuals
@@ -112,6 +116,7 @@ public class Stratum: Codable  {
      */
     public required init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self )
+        self.id = try values.decode( UUID.self, forKey: .id )
         self.label = try values.decode( String.self, forKey: .label )
         self.level = try values.decode( String.self, forKey: .level )
         self.substrata = try values.decode( Array.self, forKey: .substrata )
@@ -123,6 +128,7 @@ public class Stratum: Codable  {
      */
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self )
+        try container.encode( self.id, forKey: .id )
         try container.encode( self.label, forKey: .label )
         try container.encode( self.level, forKey: .level )
         try container.encode( self.substrata, forKey: .substrata )
@@ -369,10 +375,27 @@ extension Stratum: CustomStringConvertible {
         ret += "} "
         return ret
     }
+
+    
+   
+    
     
 }
 
 
+
+extension Stratum: Hashable {
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.id)
+    }
+    
+    public static func == (lhs: Stratum, rhs: Stratum) -> Bool {
+        return lhs.id == rhs.id
+    }
+   
+    
+}
 
 
 
