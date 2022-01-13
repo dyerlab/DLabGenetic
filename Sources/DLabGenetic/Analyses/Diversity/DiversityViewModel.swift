@@ -12,16 +12,16 @@ import DLabMatrix
 public class DiversityViewModel {
     
     /// Parameters for each stratum level
-    var parameters: [String: DiversityParameters] = [:]
+    public var parameters: [String: DiversityParameters] = [:]
     
     /// The locus being examined
-    var locus: String = ""
+    public var locus: String = ""
     
     /// Dummy initializer
     init() { }
     
     /// Designated Initializer
-    init( stratum: Stratum, level: String, locus: String ) {
+    public init( stratum: Stratum, level: String, locus: String ) {
         self.locus = locus
         let freqs = FrequencyViewModel(stratum: stratum, level: level, locus: locus)
         for (key,val) in freqs.parameters {
@@ -29,7 +29,7 @@ public class DiversityViewModel {
         }
     }
 
-    func diversityMatrix(type: DiversityType) -> Matrix {
+    public func diversityMatrix(type: DiversityType) -> Matrix {
         let keys = type == .Allelic ? ["A","A95","Ae"] : ["Ho","He","F"]
         let names = parameters.keys.sorted()
         

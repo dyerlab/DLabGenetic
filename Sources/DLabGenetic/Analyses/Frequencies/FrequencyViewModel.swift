@@ -12,13 +12,13 @@ import DLabMatrix
 public class FrequencyViewModel {
     
     /// The name of the locus
-    var locus: String
+    public var locus: String
     
     /// The allele frequency components
-    var parameters: [String: AlleleFrequencies] = [:]
+    public var parameters: [String: AlleleFrequencies] = [:]
     
     /// Get all alleles
-    var allAlleles: [String] {
+    public var allAlleles: [String] {
         var ret = [String]()
             
         for (_,freq) in self.parameters {
@@ -28,7 +28,7 @@ public class FrequencyViewModel {
     }
     
     /// The initializer
-    init( stratum: Stratum, level: String, locus: String ) {
+    public init( stratum: Stratum, level: String, locus: String ) {
         self.locus = locus
         for strata in stratum.substrataAtLevel( named: level ) {
             if let site = stratum.substratum(named: strata ) {
