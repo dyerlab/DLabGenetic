@@ -408,7 +408,7 @@ extension Stratum {
 
     public static func DefaultStratum() -> Stratum {
         
-        let stratum = Stratum(label: "All", level: "Sonoran Desert")
+        let stratum = Stratum(label: "All", level: "All")
         let raw = [
             [ "NBP", "88", "29.32544972", "-114.2935239", "1:1", "", "2:4", "1:2", "", "", "9:9", "7:7" ],
             [ "NBP", "88", "29.32543502", "-114.2934676", "1:1", "1:3", "1:1", "1:1", "1:1", "8:9", "9:9", "7:7" ],

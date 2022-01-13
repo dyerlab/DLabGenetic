@@ -22,7 +22,7 @@ import Foundation
  An enum for specifying the diversity analysis so I can use a single ``DiversityForStrata`` implementation
     to cover all the potentaial 
  */
-enum DiversityType: String {
+public enum DiversityType: String {
     
     /// Frequency Diversity
     case Frequency
