@@ -22,12 +22,15 @@ import DLabMatrix
 public class Locus: Identifiable, Equatable, Codable {
     
     public var id = UUID()
+    
     public var alleles = [String]()
+    
     public var isHeterozygote: Bool {
         return Set(alleles).count > 1 
     }
+    
     public var ploidy: Int {
-        return alleles.count 
+        return alleles.count
     }
     
     public var isEmpty: Bool {

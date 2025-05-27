@@ -10,7 +10,7 @@
 //         Making Population Genetic Software That Doesn't Suck
 //
 //  GeneticStudio
-//  Locus.swift
+//  Stratum.swift
 //
 //  Created by Rodney Dyer on 12/17/21.
 //  Copyright (c) 2021 Rodney J Dyer.  All Rights Reserved.

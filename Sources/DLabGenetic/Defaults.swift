@@ -16,10 +16,8 @@
 //  Copyright (c) 2021 Rodney J Dyer.  All Rights Reserved.
 //
 
-
 import Foundation
 import CoreLocation
-
 
 public enum DefaultDataLevel {
     case all
