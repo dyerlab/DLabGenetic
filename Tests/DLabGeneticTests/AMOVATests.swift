@@ -12,16 +12,7 @@ import DLabMatrix
 
 final class AMOVATests: XCTestCase {
 
-    func testIndividualAMOVADistance() throws {
-        
-        let data = DefaultIndividuals(level: DefaultDataLevel.population )
-        
-        XCTAssertEqual( data.individuals.count, 6)
-        
-        
-        
-        
-    }
+   
     
     
     func testLocusAMOVADistance() throws {

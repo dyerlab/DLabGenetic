@@ -11,7 +11,8 @@ import XCTest
 final class FrequencyTests: XCTestCase {
 
     func testExample() throws {
-        let pop = DefaultIndividuals(level: .all)
+        let pop = Stratum.DefaultStratum
+//        let pop = DefaultIndividuals(level: .all)
         XCTAssertEqual( pop.individuals.count, 363)
         
         if let mainland = pop.substratum(named: "Mainland") {

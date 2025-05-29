@@ -63,7 +63,7 @@ public class DiversityViewModel {
 extension DiversityViewModel {
     
     public static func DefaultDiversityViewModel() -> DiversityViewModel {
-        return DiversityViewModel(stratum: Stratum.DefaultStratum(),
+        return DiversityViewModel(stratum: Stratum.DefaultStratum,
                                   level: "Region",
                                   locus: "MP20")
     }

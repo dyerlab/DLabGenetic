@@ -79,7 +79,7 @@ extension FrequencyViewModel: MatrixConvertible {
 extension FrequencyViewModel {
     
     public static func DefaultFrequencyViewModel() -> FrequencyViewModel {
-        return FrequencyViewModel(stratum: Stratum.DefaultStratum(),
+        return FrequencyViewModel(stratum: Stratum.DefaultStratum,
                                   level: "Region",
                                   locus: "MP20")
     }

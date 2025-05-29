@@ -20,6 +20,30 @@
 import Foundation
 import DLabMatrix
 
+
+/**
+ Estimation of an AMOVA distance Matrix from a stratum.
+ - Parameters:
+    - stratum: A ``Stratum`` object
+ - Returns: A ``Matrix`` of AMOVA distances
+ */
+public func AMOVADistance( stratum: Stratum) -> Matrix {
+    let individuals = stratum.individuals
+    let N = individuals.count
+    let A = Matrix(N,N,0.0)
+    
+    for i in 0 ..< N {
+        for j in (i+1) ..< N {
+            A[i,j] = AMOVADistance(ind1: individuals[i], ind2: individuals[j] )
+            A[j,i] = A[i,j]
+        }
+    }
+    
+    return A
+}
+
+
+
 /**
  Estimation of multilocus genetic distances between two individuals
  - Parameters:

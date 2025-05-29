@@ -72,9 +72,9 @@ class StratumTests: XCTestCase {
         
         XCTAssertEqual( data.individuals.count, 363 )
         XCTAssertFalse( data.isLocale )
-        XCTAssertEqual( data.childCount, 3 )
-        XCTAssertEqual( data.childLevel, "Species" )
-        XCTAssertEqual( data.level, "All" )
+        XCTAssertEqual( data.substrataCount, 3 )
+        XCTAssertEqual( data.substrataLevel, "Species" )
+        XCTAssertEqual( data.stratum, "All" )
         if let mainland = data.substratum(named: "Mainland") {
             XCTAssertEqual( mainland.individuals.count, 36)
         } else {
@@ -94,9 +94,9 @@ class StratumTests: XCTestCase {
         let cape = DefaultIndividuals(level: .population)
         
         XCTAssertTrue( cape.isLocale )
-        XCTAssertEqual( cape.childCount, 0 )
+        XCTAssertEqual( cape.substrataCount, 0 )
         XCTAssertEqual( cape.individuals.count, 6 )
-        XCTAssertEqual( cape.childLevel, "No Labels")
+        XCTAssertEqual( cape.substrataLevel, "No Labels")
         
     }
     
@@ -158,16 +158,16 @@ class StratumTests: XCTestCase {
     
     func testDefaultStratum() throws {
         
-        let data = Stratum.DefaultStratum()
+        let data = Stratum.DefaultStratum
         
         XCTAssertEqual( data.individuals.count, 365 )
-        XCTAssertEqual( data.childLevel, "Region" )
+        XCTAssertEqual( data.substrataLevel, "Region" )
         
         XCTAssertFalse( data.isLocale )
         XCTAssertTrue( data.substratum(named: "Aqu")!.isLocale )
         
-        XCTAssertEqual( data.childCount, 4 )
-        XCTAssertEqual( data.substratum(named: "SON")!.childCount, 3 )
+        XCTAssertEqual( data.substrataCount, 4 )
+        XCTAssertEqual( data.substratum(named: "SON")!.substrataCount, 3 )
         
     }
     

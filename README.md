@@ -38,7 +38,18 @@ On this, the following items may be extracted:
 
 This package depends upon the [DLMatrix](https://github.com/dyerlab/DLMatrix) Swift Package for underlying vector and matrix representations.
 
+---
 
+### Version
+
+
+1.0.12 - Popgraphs & Pollen
+ - [x] Updated [DLMatrix](https://github.com/dyerlab/DLMatrix) for Graph Structure
+ - [x] Added Parentage enum to indicate lineage of alleles in offspring.
+ - [x] Added AMOVADistance(stratum:) -> Matrix function.
+ - [x] Added XXTableView for editing stratum, locations, and strataum.
+ - [ ] Added abitilty to identify mom/offspring as specific kind of stratum.
+ - [ ] Implemented MinusMom() function to show genotypes in normal and reduced components.
 
 
 
